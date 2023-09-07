@@ -16,52 +16,15 @@ app.engine('hbs', hbs.engine({
 // setup static public directory
 app.use(express.static('public'));
 
-const mysql = require('mysql')
-
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended:true}))
 
-// create database connection
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "Sanks",
-    password:"qwerty",
-    database: "mydb"
-})
-con.connect(function (err){
-    if (err) throw err;
-    console.log("connected to mydb");
-})
+const articleRoutes = require('./routes/articles'); // import article route
 
+// to use article routes
+app.use('/', articleRoutes);
+app.use('/article', articleRoutes)
 
-
-// show all articles - index page
-app.get('/', (req,res) => {
-    let query = "SELECT * FROM article";
-    let articles = []
-    con.query(query, (err, result) => {
-        if (err) throw err;
-        articles = result
-        res.render('index', {
-            articles: articles
-        })
-    })
-});
-
-//show article by this slug
-app.get('/article/:slug',(req,res) => {
-    let query=`SELECT * FROM article 
-    inner join author on slug="${req.params.slug}" AND article.author_id = author.id`
-    let article
-    con.query(query, (err, result) => {
-    if (err) throw err;
-    article = result
-    console.log(article)
-    res.render('article', {
-        article:article
-        })
-    })
-})
 
 // show author articles
 app.get('/author/:author_id', (req, res) => {
