@@ -1,6 +1,8 @@
 const express = require('express');
+
 // get using express router
 const router = express.Router();
+
 // define article controller and export it for this file
 const articleController = require('../controllers/article');
 

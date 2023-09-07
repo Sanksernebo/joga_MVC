@@ -23,29 +23,12 @@ const articleRoutes = require('./routes/articles'); // import article route
 
 // to use article routes
 app.use('/', articleRoutes);
-app.use('/article', articleRoutes)
+app.use('/article', articleRoutes);
 
+const authorRoutes = require('./routes/author'); // import author route
 
-// show author articles
-app.get('/author/:author_id', (req, res) => {
-    const author_id = req.params.author_id;
-
-    let sql = `SELECT * FROM article WHERE author_id = ${author_id}`;
-    con.query(sql, (err, result) => {
-        if (err) throw err;
-        const articles = result;
-        sql = `SELECT * FROM author WHERE id = ${author_id}`
-        con.query(sql, (err, result) => {
-            let author = result
-            console.log(articles)
-            console.log(author)
-            res.render('author', {
-                articles: articles,
-                author: author
-            });
-        })
-    });
-});
+// to use author route
+app.use('/author', authorRoutes);
 
 //app start point
 app.listen(3000, () => {
