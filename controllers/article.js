@@ -19,16 +19,18 @@ message: err.message || 'Some error occurred retrieving articles data'
 
 //show article by this slug
 const getArticleBySlug = (req,res) => {
-    let query=`SELECT * FROM article 
-    inner join author on slug="${req.params.slug}" AND article.author_id = author.id`
-    let article
-    con.query(query, (err, result) => {
-        if (err) throw err;
-        article = result
-        res.render('article', {
-            article:article
+Article.getBySlug(req.params.slug, (err, data) => {
+    if (err) {
+        res.status(500).send({
+            message : err.message || 'Some error occurred retrieving article data'
         })
-    })
+    } else {
+        console.log(data)
+        res.render('article', {
+            article:data
+        })
+    }
+})
 };
 
 // export controller functions
