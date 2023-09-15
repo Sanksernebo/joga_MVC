@@ -52,17 +52,24 @@ const createNewArticle = (req, res) => {
     Article.createNew(newArticle, (err, data) => {
         if (err) {
             res.status(500).send({
-                message: err.message || 'Some error occured sending article data'
+                message: err.message || 'Some error occurred sending article data'
             })
         } else {
             console.log(data)
-            res.send(data)
+            res.redirect('/')
         }
     })
-}
+};
+
+//display article form
+const showNewArticleForm = (req, res) => {
+    res.render('create_article')
+};
+
 // export controller functions
 module.exports = {
     getAllArticles,
     getArticleBySlug,
     createNewArticle,
+    showNewArticleForm,
 };

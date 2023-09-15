@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 
 const path = require('path')
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true}));
 //add template engine
 const hbs = require('express-handlebars');
 //setup template engine directory and files extension
@@ -25,10 +27,15 @@ const articleRoutes = require('./routes/articles'); // import article route
 app.use('/', articleRoutes);
 app.use('/article', articleRoutes);
 
+
+
 const authorRoutes = require('./routes/author'); // import author route
 
 // to use author route
 app.use('/author', authorRoutes);
+
+
+
 
 //app start point
 app.listen(3000, () => {
