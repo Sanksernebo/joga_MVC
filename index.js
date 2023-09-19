@@ -28,7 +28,6 @@ app.use('/', articleRoutes);
 app.use('/article', articleRoutes);
 
 
-
 const authorRoutes = require('./routes/author'); // import author route
 
 // to use author route
