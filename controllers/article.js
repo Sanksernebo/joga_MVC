@@ -3,7 +3,6 @@ const articleDbModel = require('../models/article')
 const articleModel = new articleDbModel()
 
 class articleController {
-
 // show all articles - index page
 constructor() {
     const articles = []
@@ -12,107 +11,16 @@ async getAllArticles(req, res) {
     const articles = await articleModel.findAll()
     res.status(201).json({articles:articles})
     }
+
+async getArticleBySlug(req, res) {
+    const article = await articleModel.findOne(req.params.slug)
+    res.status(201).json({article:article})
 }
+}
+
 
 //show article by this slug
-const getArticleBySlug = (req,res) => {
-Article.getBySlug(req.params.slug, (err, data) => {
-    if (err) {
-        res.status(500).send({
-            message : err.message || 'Some error occurred retrieving article data'
-        })
-    } else {
-        console.log(data)
-        res.render('article', {
-            article:data
-        })
-    }
-})
-};
-// Create new article
-const createNewArticle = (req, res) => {
-    // new article from POST data (example from form)
-    console.log('new article')
 
-    const newArticle = new Article({
-        name: req.body.name,
-        slug: req.body.slug,
-        image: req.body.image,
-        body: req.body.body,
-        published: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        author_id: req.body.author_id
-    })
-
-
-    Article.createNew(newArticle, (err, data) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message || 'Some error occurred sending article data'
-            })
-        } else {
-            console.log(data)
-            res.redirect(`/article/${newArticle.slug}`)
-        }
-    })
-};
-
-const updateArticle = (req, res) => {
-    console.log(req.method)
-    console.log('update article')
-    if (req.method === 'GET') {
-        Article.showArticle(req.params.id, (err, article, authors) => {
-            if (err) {
-                res.status(500).send({
-                    message: err.message || 'An error occurred retrieving article data'
-                })
-            } else {
-                console.log(article, authors)
-                res.render('edit_article', {
-                    article: article,
-                    authors: authors
-                })
-            }
-        })
-    } else if (req.method === "POST") {
-        if (req.body.action === 'delete') {
-            console.log('delete article')
-            Article.deleteArticle(req.params.id, (err, result) => {
-                if (err) {
-                    res.status(500).send({
-                        message: err.message || 'An error occurred retrieving article data'
-                    })
-                } else {
-                    console.log(result)
-                    res.redirect('/')
-                }
-            })
-        } else {
-            console.log('update article')
-            const editedArticle = new Article({
-                name: req.body.name,
-                slug: req.body.slug,
-                image: req.body.image,
-                body: req.body.body,
-                author_id: req.body.author_id
-            })
-            Article.editArticle(req.params.id, editedArticle, (err, data) => {
-                if (err) {
-                    res.status(500).send({
-                        message: err.message || 'An error occurred retrieving article data'
-                    })
-                } else {
-                    console.log(data)
-                    res.redirect(`/article/${editedArticle.slug}`)
-                }
-            })
-        }
-    }
-}
-
-//display article form
-const showNewArticleForm = (req, res) => {
-    res.render('create_article')
-};
 
 
 
