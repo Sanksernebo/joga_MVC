@@ -117,6 +117,19 @@ Article.editArticle = (articleId, editedArticle, result) => {
         result(null, {id: res.insertId, ...editedArticle})
     })
 }
+Article.deleteArticle = (articleId, result) => {
+    let query = `DELETE FROM article where id = "${articleId}"`
+
+    con.query(query, (err, res) => {
+        if (err) {
+            console.log('error: ', err)
+            result(err, null)
+            return
+        }
+        console.log('deleted article: ', {id: res.insertId})
+        result(null, {id: res.insertId})
+    })
+}
 
 
 module.exports = Article;

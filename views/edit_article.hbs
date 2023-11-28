@@ -16,10 +16,10 @@
         <textarea name="body" id="body">{{{body}}}</textarea>
 {{/article}}
 
-    <label for="author">Author</label>
-    <select name="author" id="author">
+    <label for="author_id">Author</label>
+    <select name="author_id" id="author_id">
         {{#each authors}}
-            <option value="{{this.author_id}}">{{this.author_name}}</option>
+            <option value="{{this.id}}">{{this.author_name}}</option>
         {{/each}}
     </select>
 
@@ -29,8 +29,9 @@
 <h2>Delete article</h2>
 
 <p>Click the button below to delete the article</p>
-
+{{#article}}
 <form method="post">
     <input type="hidden" name="action" value="delete">
     <button class="danger">Delete</button>
 </form>
+{{/article}}

@@ -1,18 +1,10 @@
 const express = require('express');
+const router = express.Router()
+const articleControllerClass = require('../controllers/article')
 
-// get using express router
-const router = express.Router();
+const articleController = new articleControllerClass()
 
-// define article controller and export it for this file
-const articleController = require('../controllers/article');
-
-// use controller functions according to the route
-router.get('/', articleController.getAllArticles);
-router.get('/:slug', articleController.getArticleBySlug);
-router.get('/article/create', articleController.showNewArticleForm);
-router.post('/create', articleController.createNewArticle);
-router.get('/article/edit/:id', articleController.updateArticle)
-router.post('/article/edit/:id', articleController.updateArticle)
+router.get('/', (req,res) => articleController.getAllArticles(req, res))
 
 // export article router for using in default application file
 module.exports = router;
